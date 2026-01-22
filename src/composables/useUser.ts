@@ -30,6 +30,8 @@ export function useUsers() {
 	const listUsers = ref<User[]>([]);
 	const loading = ref(false);
 	const error = ref<string | null>(null);
+	const selectedUser = ref<User | undefined>();
+	const selectedMenu = ref<'list' | 'grid'>('list');
 
 	const query = ref<UserQuery>({
 		sortBy: 'name',
@@ -44,6 +46,16 @@ export function useUsers() {
 		},
 		{ deep: true },
 	);
+
+	const handleSubmit = (user: any) => {
+		if (user.id) {
+			updateUser(user);
+		} else {
+			addUser(user);
+		}
+
+		selectedUser.value = undefined;
+	};
 
 	const fetchUsers = async () => {
 		loading.value = true;
@@ -106,5 +118,8 @@ export function useUsers() {
 		query,
 		genderOptions,
 		sortByOptions,
+		selectedMenu,
+		selectedUser,
+		handleSubmit,
 	};
 }

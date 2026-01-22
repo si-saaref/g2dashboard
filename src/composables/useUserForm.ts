@@ -68,6 +68,7 @@ export function useUserForm(
 			...values,
 			...(user?.value?.id ? { id: user.value.id } : {}),
 		});
+		resetForm();
 	});
 
 	const genderOptions = [

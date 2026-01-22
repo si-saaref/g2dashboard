@@ -3,34 +3,19 @@ import UserForm from '@/components/UserForm.vue';
 import UserGrid from '@/components/UserGrid.vue';
 import UserList from '@/components/UserList.vue';
 import { useUsers } from '@/composables/useUser';
-import type { User } from '@/models/User.model';
 import { Dropdown, FloatLabel, InputText } from 'primevue';
-import { ref } from 'vue';
 
 const {
 	listUsers,
-	addUser,
-	updateUser,
 	deleteUser,
 	exportUsers,
 	query,
 	sortByOptions,
 	genderOptions,
+	handleSubmit,
+	selectedMenu,
+	selectedUser,
 } = useUsers();
-const selectedUser = ref<User | undefined>();
-const selectedMenu = ref<'list' | 'grid'>('list');
-const formKey = ref(0);
-
-const handleSubmit = (user: any) => {
-	if (user.id) {
-		updateUser(user);
-	} else {
-		addUser(user);
-	}
-
-	selectedUser.value = undefined;
-	formKey.value++;
-};
 </script>
 
 <template>
@@ -42,7 +27,7 @@ const handleSubmit = (user: any) => {
 					<h1 class="text-black">User Management</h1>
 				</div>
 
-				<UserForm :key="formKey" :user="selectedUser" @submit="handleSubmit" />
+				<UserForm :user="selectedUser" @submit="handleSubmit" />
 			</div>
 
 			<div class="flex flex-col gap-2 px-10 py-4 bg-white items-start justify-between">
