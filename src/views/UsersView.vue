@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import GridIcon from '@/assets/icons/grid.svg';
+import ListIcon from '@/assets/icons/list.svg';
 import UserForm from '@/components/UserForm.vue';
 import UserGrid from '@/components/UserGrid.vue';
 import UserList from '@/components/UserList.vue';
@@ -74,40 +76,14 @@ const {
 							:class="selectedMenu === 'list' ? 'bg-gray-200' : ''"
 							class="p-1.5"
 						>
-							<svg
-								clip-rule="evenodd"
-								fill-rule="evenodd"
-								stroke-linejoin="round"
-								stroke-miterlimit="2"
-								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-								class="fill-black w-7"
-							>
-								<path
-									d="m22 17.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-2.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-1.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-3.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-4.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75z"
-									fill-rule="nonzero"
-								/>
-							</svg>
+							<ListIcon class="fill-black w-7" />
 						</button>
 						<button
 							@click="selectedMenu = 'grid'"
 							:class="selectedMenu === 'grid' ? 'bg-gray-200' : ''"
 							class="p-1.5"
 						>
-							<svg
-								clip-rule="evenodd"
-								fill-rule="evenodd"
-								stroke-linejoin="round"
-								stroke-miterlimit="2"
-								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-								class="fill-black w-7"
-							>
-								<path
-									d="m8 16h-5v4c0 .621.52 1 1 1h4zm6.6 5v-5h-5.2v5zm6.4-5h-5v5h4c.478 0 1-.379 1-1zm0-1.4v-5.2h-5v5.2zm-18-5.2v5.2h5v-5.2zm11.6 0h-5.2v5.2h5.2zm1.4-6.4v5h5v-4c0-.478-.379-1-1-1zm-8 5v-5h-4c-.62 0-1 .519-1 1v4zm6.6-5h-5.2v5h5.2z"
-									fill-rule="nonzero"
-								/>
-							</svg>
+							<GridIcon class="fill-black w-7" />
 						</button>
 					</div>
 				</div>

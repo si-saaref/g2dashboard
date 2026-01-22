@@ -48,6 +48,9 @@ export function useUsers() {
 	);
 
 	const handleSubmit = (user: any) => {
+		if (!user) {
+			return;
+		}
 		if (user.id) {
 			updateUser(user);
 		} else {
