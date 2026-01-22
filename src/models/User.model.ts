@@ -1,10 +1,13 @@
+import type { Timestamp } from 'firebase/firestore';
+
+export type Gender = 'male' | 'female';
 export interface User {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
-	birthdate: Date;
-	gender: 'male' | 'female';
+	birthdate: number;
+	gender: Gender;
 	profilePictureUrl?: string;
-	createdAt?: Date;
-	updatedAt?: Date;
+	createdAt?: Timestamp;
+	updatedAt?: Timestamp;
 }

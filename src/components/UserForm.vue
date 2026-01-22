@@ -1,85 +1,79 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import type { User } from '@/models/User.model';
+import Button from 'primevue/button';
+import DatePicker from 'primevue/datepicker';
+import Dropdown from 'primevue/dropdown';
+import FloatLabel from 'primevue/floatlabel';
+import InputText from 'primevue/inputtext';
 
-const props = defineProps<{
-	user?: User;
-}>();
+import { useUserForm } from '@/composables/useUserForm';
+import type { User } from '@/models/User.model';
+import { toRef } from 'vue';
+
+const props = defineProps<{ user?: User }>();
 
 const emit = defineEmits<{
 	(e: 'submit', user: Omit<User, 'id'> | User): void;
 }>();
 
-const name = ref('');
-const email = ref('');
-
-watch(
-	() => props.user,
-	(user) => {
-		console.log(user);
-		if (user) {
-			name.value = user.name;
-			email.value = user.email;
-		} else {
-			name.value = '';
-			email.value = '';
-		}
-	},
-	{ immediate: true },
+const { fields, errors, birthdateAsDate, genderOptions, submit, resetForm } = useUserForm(
+	toRef(props, 'user'),
+	emit,
 );
-
-const submit = () => {
-	emit('submit', {
-		...(props.user?.id ? { id: props.user.id } : {}),
-		name: name.value,
-		email: email.value,
-		birthdate: new Date(),
-		gender: 'male',
-		// createdAt: new Date(),
-		// updatedAt: new Date(),
-	});
-	// name.value = '';
-	// email.value = '';
-};
 </script>
 
 <template>
-	<form @submit.prevent="submit" class="text-black flex flex-col gap-2">
-		<div class="relative">
-			<input
-				v-model="name"
-				id="name"
-				placeholder=" "
-				required
-				class="peer w-full px-4 pt-6 pb-2 bg-white border-2 border-gray-300 rounded-lg text-gray-900 transition-all duration-200 ease-in-out focus:outline-none hover:border-gray-400"
-			/>
-			<label
-				for="name"
-				class="absolute left-4 top-4 text-gray-400 text-base transition-all duration-200 ease-in-out pointer-events-none peer-focus:-top-2 bg-white px-2 peer-focus:text-xs peer-focus:text-black peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-600"
-			>
-				Name
-			</label>
+	<form @submit.prevent="submit" class="flex flex-col gap-4 text-black">
+		<div class="flex gap-5">
+			<div class="flex flex-col gap-1 w-full items-start">
+				<FloatLabel variant="on" class="w-full">
+					<InputText v-model="fields.name.value" class="w-full" />
+					<label>Name</label>
+				</FloatLabel>
+				<small class="text-red-500 pl-3">{{ errors.name }}</small>
+			</div>
+
+			<div class="flex flex-col gap-1 w-full items-start">
+				<FloatLabel variant="on" class="w-full">
+					<InputText v-model="fields.email.value" class="w-full" />
+					<label>Email</label>
+				</FloatLabel>
+				<small class="text-red-500 pl-3">{{ errors.email }}</small>
+			</div>
 		</div>
-		<div class="relative">
-			<input
-				v-model="email"
-				id="email"
-				placeholder=" "
-				required
-				class="peer w-full px-4 pt-6 pb-2 bg-white border-2 border-gray-300 rounded-lg text-gray-900 transition-all duration-200 ease-in-out focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none hover:border-gray-400 autofill:bg-white! autofill:pt-6 autofill:pb-2 [-webkit-autofill&]:bg-white [-webkit-autofill&]:shadow-[0_0_0_30px_white_inset]"
-			/>
-			<label
-				for="email"
-				class="absolute left-4 top-4 text-gray-400 text-base transition-all duration-200 ease-in-out pointer-events-none peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-600 peer-autofill:top-2 peer-autofill:text-xs peer-autofill:text-gray-600"
-			>
-				Email
-			</label>
+
+		<div class="flex gap-5">
+			<div class="flex flex-col gap-1 w-full items-start">
+				<FloatLabel variant="on" class="w-full">
+					<DatePicker v-model="birthdateAsDate" showIcon class="w-full" :maxDate="new Date()" />
+					<label>Birthdate</label>
+				</FloatLabel>
+				<small class="text-red-500 pl-3">{{ errors.birthdate }}</small>
+			</div>
+
+			<div class="flex flex-col gap-1 w-full items-start">
+				<FloatLabel variant="on" class="w-full">
+					<Dropdown
+						v-model="fields.gender.value"
+						:options="genderOptions"
+						optionLabel="label"
+						optionValue="value"
+						placeholder=""
+						class="w-full text-left"
+					/>
+					<label>Gender</label>
+				</FloatLabel>
+				<small class="text-red-500 pl-3">{{ errors.gender }}</small>
+			</div>
 		</div>
-		<button
-			type="submit"
-			class="border rounded-lg px-6 py-2 bg-white cursor-pointer hover:bg-slate-200 transition"
-		>
-			Save
-		</button>
+
+		<div class="self-end flex gap-3">
+			<button
+				class="border border-red-500 px-8 py-2 rounded-lg cursor-pointer hover:bg-red-400 transition-all hover:text-white"
+				@click.prevent="resetForm()"
+			>
+				Reset
+			</button>
+			<Button type="submit" label="Save" class="w-fit px-8!" />
+		</div>
 	</form>
 </template>
