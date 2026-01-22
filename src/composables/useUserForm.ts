@@ -6,10 +6,22 @@ import z from 'zod';
 import type { Gender, User } from '@/models/User.model';
 
 const schema = z.object({
-	name: z.string('Name cannot be empty').min(1, 'Name is required'),
-	email: z.string('Email cannot be empty').email('Invalid email'),
-	birthdate: z.number('Birthdate cannot be empty').min(1, 'Birthdate is required'),
-	gender: z.enum(['male', 'female'], { error: 'Gender cannot be empty' }),
+	name: z
+		.string({
+			required_error: 'Name cannot be empty',
+		})
+		.min(1, 'Name is required'),
+	email: z
+		.string({
+			required_error: 'Email cannot be empty',
+		})
+		.email('Invalid email'),
+	birthdate: z
+		.number({
+			required_error: 'Birthdate cannot be empty',
+		})
+		.min(1, 'Birthdate is required'),
+	gender: z.enum(['male', 'female'], { required_error: 'Gender cannot be empty' }),
 });
 
 type FormValues = z.infer<typeof schema>;
